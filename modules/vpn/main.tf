@@ -45,12 +45,3 @@ data "aws_security_group" "default" {
     values = ["default"]
   }
 }
-
-resource "aws_security_group_rule" "allow_nfs" {
-  security_group_id = data.aws_security_group.default.id
-  type = "ingress"
-  from_port = 2049
-  to_port = 2049
-  protocol = "tcp"
-  cidr_blocks = [var.local_network]
-}
