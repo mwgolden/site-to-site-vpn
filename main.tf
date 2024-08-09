@@ -20,6 +20,13 @@ module "vpn" {
   }
 }
 
+module "dynamic_ip_service" {
+  source = "./modules/dynamic_ip_service"
+  providers = {
+    aws = aws
+  }
+}
+
 data "aws_security_group" "default" {
   vpc_id = module.vpc.vpc_id
   filter {
@@ -43,8 +50,13 @@ resource "aws_efs_file_system" "efs" {
   }
 }
 
+locals {
+  public_subnet_map = {
+    for idx, subnet_id in module.vpc.public_subnets : idx => subnet_id
+  }
+}
 resource "aws_efs_mount_target" "target" {
-  for_each = toset(module.vpc.public_subnets)
+  for_each = local.public_subnet_map
   file_system_id = aws_efs_file_system.efs.id
   subnet_id      = each.value
   security_groups = [data.aws_security_group.default.id]

@@ -25,12 +25,12 @@ resource "aws_lambda_permission" "apigw_lambda" {
 
 data "archive_file" "zip_python_code" {
   type        = "zip"
-  source_dir  = "${path.module}/python/"
-  output_path = "${path.module}/python/hello-python.zip"
+  source_dir  = "${path.module}/python/src/"
+  output_path = "${path.module}/python/build/hello-python.zip"
 }
 
 resource "aws_lambda_function" "hello_python_lambda" {
-  filename         = "${path.module}/python/hello-python.zip"
+  filename         = "${path.module}/python/build/hello-python.zip"
   function_name    = "Terraform_Test_Lambda_Function"
   role             = aws_iam_role.lambda_role.arn
   handler          = "index.lambda_handler"
