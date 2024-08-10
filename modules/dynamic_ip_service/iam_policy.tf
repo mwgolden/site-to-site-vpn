@@ -35,4 +35,12 @@ data "aws_iam_policy_document" "lambda_policy" {
     ]
     resources = [ "${aws_s3_bucket.bucket.arn}/*" ]
   }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "events:PutEvents"
+    ]
+    resources = [ "*" ]
+  }
 }

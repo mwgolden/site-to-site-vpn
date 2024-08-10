@@ -1,6 +1,7 @@
 import json
 import os
 import boto3
+from datetime import datetime
 
 def save_to_bucket(bucket, key, json_object):
     s3 = boto3.resource("s3")
@@ -12,6 +13,7 @@ def save_to_bucket(bucket, key, json_object):
         print(e)
         return None
 
+
 def get_from_bucket(bucket, key):
     s3 = boto3.client('s3')
     try:
@@ -21,6 +23,13 @@ def get_from_bucket(bucket, key):
     except Exception as e:
         print(e)
         return None
+    
+    
+def publish_event(message):
+    print(message)
+    eb = boto3.client('events')
+    eb.put_events([message])
+
 
 def lambda_handler(event, context):
     s3_bucket = os.environ.get('BUCKET')
@@ -35,6 +44,12 @@ def lambda_handler(event, context):
     message = ''
     if not current_ip or current_ip.get('myip') != new_ip:
         save_to_bucket(s3_bucket, s3_key, query_params)
+        publish_event({
+            'Source': 'dynamic.ip.service',
+            'Detail': json.dumps(message),
+            'DetailType': 'IP Address Update',
+            'EventBusName': 'default'
+        })
         message = f"IP address updated to {new_ip}"
     else:
         message = "IP Address has not changed"
