@@ -30,18 +30,18 @@ module "dynamic_ip_service" {
 data "aws_security_group" "default" {
   vpc_id = module.vpc.vpc_id
   filter {
-    name = "group-name"
+    name   = "group-name"
     values = ["default"]
   }
 }
 
 resource "aws_security_group_rule" "allow_nfs" {
   security_group_id = data.aws_security_group.default.id
-  type = "ingress"
-  from_port = 2049
-  to_port = 2049
-  protocol = "tcp"
-  cidr_blocks = [var.local_network_cidr]
+  type              = "ingress"
+  from_port         = 2049
+  to_port           = 2049
+  protocol          = "tcp"
+  cidr_blocks       = [var.local_network_cidr]
 }
 
 resource "aws_efs_file_system" "efs" {
@@ -56,8 +56,8 @@ locals {
   }
 }
 resource "aws_efs_mount_target" "target" {
-  for_each = local.public_subnet_map
-  file_system_id = aws_efs_file_system.efs.id
-  subnet_id      = each.value
+  for_each        = local.public_subnet_map
+  file_system_id  = aws_efs_file_system.efs.id
+  subnet_id       = each.value
   security_groups = [data.aws_security_group.default.id]
 }

@@ -33,7 +33,7 @@ data "aws_iam_policy_document" "lambda_policy" {
       "s3:GetBucketLocation",
       "s3:List*"
     ]
-    resources = [ "${aws_s3_bucket.bucket.arn}/*" ]
+    resources = ["${aws_s3_bucket.bucket.arn}/*"]
   }
 
   statement {
@@ -41,6 +41,6 @@ data "aws_iam_policy_document" "lambda_policy" {
     actions = [
       "events:PutEvents"
     ]
-    resources = [ "*" ]
+    resources = ["*"]
   }
 }

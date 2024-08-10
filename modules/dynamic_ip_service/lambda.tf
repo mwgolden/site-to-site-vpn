@@ -37,9 +37,10 @@ resource "aws_lambda_function" "hello_python_lambda" {
   runtime          = "python3.10"
   depends_on       = [aws_iam_role_policy_attachment.attach_iam_policy_to_role]
   source_code_hash = data.archive_file.zip_python_code.output_base64sha256
+  timeout          = 15
   environment {
     variables = {
-      BUCKET = "com.wgolden.dynamic-ip-cache",
+      BUCKET     = "com.wgolden.dynamic-ip-cache",
       BUCKET_KEY = "ipaddress.cache"
     }
   }

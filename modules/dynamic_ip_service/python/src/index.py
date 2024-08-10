@@ -28,7 +28,9 @@ def get_from_bucket(bucket, key):
 def publish_event(message):
     print(message)
     eb = boto3.client('events')
-    eb.put_events([message])
+    response = eb.put_events(Entries=[message])
+    if response.get('FailedEntryCount') > 0:
+        raise Exception(f"Eventbridge Error: {json.dumps(response['Entries'])}")
 
 
 def lambda_handler(event, context):
@@ -46,9 +48,8 @@ def lambda_handler(event, context):
         save_to_bucket(s3_bucket, s3_key, query_params)
         publish_event({
             'Source': 'dynamic.ip.service',
-            'Detail': json.dumps(message),
-            'DetailType': 'IP Address Update',
-            'EventBusName': 'default'
+            'Detail': json.dumps({'ipaddress': new_ip}),
+            'DetailType': 'dynamic.ip.service'
         })
         message = f"IP address updated to {new_ip}"
     else:
