@@ -34,6 +34,7 @@ resource "aws_vpn_connection_route" "office" {
 }
 
 resource "aws_vpn_gateway_route_propagation" "route_propagation" {
+  depends_on = [ aws_vpn_connection.vpn_connection ]
   vpn_gateway_id = aws_vpn_gateway.vpn_gateway.id
   route_table_id = var.public_route_table_id
 }
