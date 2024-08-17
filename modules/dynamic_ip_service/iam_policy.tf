@@ -75,7 +75,8 @@ data "aws_iam_policy_document" "ecs_task_role" {
       "ecr:GetDownloadUrlForLayer",
       "ecr:BatchGetImage",
       "logs:CreateLogStream",
-      "logs:PutLogEvents"
+      "logs:PutLogEvents",
+      "iam:GetRole"
     ]
     resources = [ "*" ]
   }
