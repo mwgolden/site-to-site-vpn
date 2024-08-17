@@ -64,7 +64,7 @@ data "aws_iam_policy_document" "ecs_task_role" {
       "s3:GetObject",
       "s3:List*"
     ]
-    resources = [ "arn:aws:s3:::com.wgolden.tfstate/*" ]
+    resources = [ "arn:aws:s3:::com.wgolden.tfstate/*", "${aws_s3_bucket.bucket.arn}/*" ]
   }
   
   statement {
