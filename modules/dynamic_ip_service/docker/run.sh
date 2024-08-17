@@ -14,4 +14,4 @@ cd $CLONE_DIR
 terraform init
 
 # Run the Terraform command
-$TERRAFORM_COMMAND "$@"
+$TERRAFORM_COMMAND -var="local_network_cidr=${LOCAL_NETWORK_CIDR}" -var="vpn_customer_gateway=${CUSTOMER_GATEWAY_ADDRESS}" -var="remote_network_cidr=${REMOTE_NETWORK_CIDR}"

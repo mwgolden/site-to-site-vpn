@@ -21,3 +21,8 @@ variable "remote_network_cidr" {
 data "aws_availability_zones" "east" {
   provider = aws
 }
+
+variable "use_profile" {
+  type = bool
+  default = false
+}
