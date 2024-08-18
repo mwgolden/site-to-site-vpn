@@ -76,8 +76,18 @@ data "aws_iam_policy_document" "ecs_task_role" {
       "ecr:BatchGetImage",
       "logs:CreateLogStream",
       "logs:PutLogEvents",
-      "iam:GetRole"
+      "iam:GetRole",
+      "iam:ListRolePolicies",
+      "ec2:*"
     ]
     resources = [ "*" ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "*"
+    ]
+    resources = [ "arn:aws:ec2:*:*:vpc/*" ]
   }
 }
