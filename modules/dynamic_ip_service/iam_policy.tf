@@ -57,28 +57,20 @@ data "aws_iam_policy_document" "ecs_assume_role" {
 }
 
 data "aws_iam_policy_document" "ecs_task_role" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "s3:PutObject",
-      "s3:GetObject",
-      "s3:List*"
-    ]
-    resources = [ "arn:aws:s3:::com.wgolden.tfstate/*", "${aws_s3_bucket.bucket.arn}/*" ]
-  }
   
   statement {
     effect = "Allow"
     actions = [
-      "ecr:GetAuthorizationToken",
-      "ecr:BatchCheckLayerAvailability",
-      "ecr:GetDownloadUrlForLayer",
-      "ecr:BatchGetImage",
-      "logs:CreateLogStream",
-      "logs:PutLogEvents",
-      "iam:GetRole",
-      "iam:ListRolePolicies",
-      "ec2:*"
+      "ecr:*",
+      "logs:*",
+      "iam:*",
+      "ec2:*",
+      "ecs:*",
+      "events:*",
+      "s3:*",
+      "lambda:*",
+      "apigateway:*",
+      "elasticfilesystem:*"
     ]
     resources = [ "*" ]
   }
