@@ -83,3 +83,28 @@ data "aws_iam_policy_document" "ecs_task_role" {
     resources = [ "arn:aws:ec2:*:*:vpc/*" ]
   }
 }
+
+data "aws_iam_policy_document" "eventbridge_assume_role" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["events.amazonaws.com"]
+    }
+  }
+}
+
+
+data "aws_iam_policy_document" "event_bridge_ecs_policy" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecs:RunTask",
+      "ecs:StartTask",
+      "ecs:StopTask",
+      "iam:PassRole"
+    ]
+    resources = [ "*" ]
+  }
+}

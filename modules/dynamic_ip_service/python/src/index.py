@@ -46,11 +46,17 @@ def lambda_handler(event, context):
     message = ''
     if not current_ip or current_ip.get('myip') != new_ip:
         save_to_bucket(s3_bucket, s3_key, query_params)
-        publish_event({
+        response = publish_event({
             'Source': 'dynamic.ip.service',
-            'Detail': json.dumps({'ipaddress': new_ip}),
+            'Detail': json.dumps(
+                {
+                    'ipaddress': new_ip,
+                    'local_cidr': "192.168.1.0/24",
+                    "network_cidr": "10.0.0.0/16" 
+                }),
             'DetailType': 'dynamic.ip.service'
         })
+        print(response)
         message = f"IP address updated to {new_ip}"
     else:
         message = "IP Address has not changed"

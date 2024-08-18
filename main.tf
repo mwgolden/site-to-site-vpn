@@ -22,6 +22,8 @@ module "vpn" {
 
 module "dynamic_ip_service" {
   source = "./modules/dynamic_ip_service"
+  public_subnets = module.vpc.public_subnets
+  private_subnets = module.vpc.private_subnets
   providers = {
     aws = aws
   }

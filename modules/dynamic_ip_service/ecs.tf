@@ -10,7 +10,11 @@ resource "aws_ecs_cluster" "ecs_cluster" {
     network_mode = "awsvpc"
     cpu = 256
     memory = 512
-    container_definitions = templatefile("${path.module}/ecs-tf-runner.def.json", { account_number = data.aws_caller_identity.account.account_id })
+    container_definitions = templatefile(
+        "${path.module}/ecs-tf-runner.def.json", 
+        { 
+            account_number = data.aws_caller_identity.account.account_id 
+        })
     execution_role_arn = aws_iam_role.ecs_role.arn
     task_role_arn = aws_iam_role.ecs_role.arn
  }

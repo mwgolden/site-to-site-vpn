@@ -5,7 +5,20 @@
         "cpu": 0,
         "portMappings": [],
         "essential": true,
-        "environment": [],
+        "environment": [
+            {
+                "name": "CUSTOMER_GATEWAY_ADDRESS",
+                "value": ""
+            },
+            {
+                "name": "LOCAL_NETWORK_CIDR",
+                "value": ""
+            },
+            {
+                "name": "REMOTE_NETWORK_CIDR",
+                "value": ""
+            }
+        ],
         "environmentFiles": [],
         "mountPoints": [],
         "volumesFrom": [],
